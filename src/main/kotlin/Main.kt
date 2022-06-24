@@ -1,37 +1,32 @@
 import kotlin.math.*
 
-var count : Int = 0
+var count: Int = 0
 
 fun main() {
+    val a = -10.0
+    val b = 10.0
+    val h = 0.3
+    printMatrix(findIntervals(a, b, h))
 
 }
 
-fun baseFunction(x: Double) : Double {
+fun baseFunction(x: Double): Double {
     count++
     return (10 * cos(x) - 0.1 * x.pow(2))
 }
 
-private fun validateInsert(insert: String?): Boolean {
-    return if (insert == null) {
-        false
-    } else {
-        if (insert.trim().toDoubleOrNull() is Double) {
-            insert.trim().toDouble() >= 0
-        } else false
-    }
-}
-
-private fun findIntervals (function: (Double) -> Double, a: Double, b: Double, h: Double) : Array<DoubleArray> {
+private fun findIntervals(a: Double, b: Double, h: Double): Array<DoubleArray> {
+    println("Finding borders:")
     val answer = mutableListOf<DoubleArray>()
-    var rightBorder = a
-    var leftBorder = a + h
+    var leftBorder = a
+    var rightBorder = a + h
     while (rightBorder < b) {
-        if (function(leftBorder)*function(rightBorder) <= 0) {
-            answer.add(doubleArrayOf(leftBorder,rightBorder))
-        } else {
-            leftBorder = rightBorder
-            rightBorder += h
+        if (baseFunction(leftBorder) * baseFunction(rightBorder) <= 0) {
+            answer.add(doubleArrayOf(leftBorder, rightBorder))
+
         }
+        leftBorder = rightBorder
+        rightBorder += h
     }
     return answer.toTypedArray()
 }
