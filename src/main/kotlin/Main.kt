@@ -2,8 +2,8 @@ import kotlin.math.*
 
 var count: Int = 0
 private const val BASE_LEFT_BORDER = -10.0
-val BASE_RIGHT_BORDER = 10.0
-val BASE_STEP = 0.3
+private const val BASE_RIGHT_BORDER = 10.0
+private const val BASE_STEP = 0.3
 
 fun main() {
 
