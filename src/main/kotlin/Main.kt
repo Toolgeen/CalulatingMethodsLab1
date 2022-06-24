@@ -35,3 +35,10 @@ private fun findIntervals (function: (Double) -> Double, a: Double, b: Double, h
     }
     return answer.toTypedArray()
 }
+
+
+private fun printMatrix(matrix: Array<DoubleArray>) {
+    matrix.map {
+        println("[${it.joinToString(", ")}]")
+    }
+}
