@@ -1,4 +1,7 @@
+import kotlin.concurrent.timer
 import kotlin.math.*
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 var countOfFunctionCalculation: Int = 0
 private const val BASE_LEFT_BORDER = -10.0
@@ -10,10 +13,13 @@ private const val ARGUMENT_ACCURACY = 0.005
 
 fun main() {
 
+    val startTime = System.currentTimeMillis()
     val intervals = findIntervals()
     printMatrix(intervals)
     calculateRootsViaGoldenRatio(intervals)
     println("Function counted $countOfFunctionCalculation times")
+    val spentTime = (System.currentTimeMillis() - startTime).milliseconds
+    println("Spent time: $spentTime")
 }
 
 private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
