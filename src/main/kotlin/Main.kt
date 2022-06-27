@@ -42,7 +42,7 @@ private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
             }
             iteration++
         }
-        println("Сходимость корня №${intervals.indexOf(interval) + 1}:")
+        println("Convergences of root №${intervals.indexOf(interval) + 1}:")
         println(printArray(convergences.toDoubleArray()))
 
         val x = (a + b) / 2
@@ -52,11 +52,11 @@ private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
 
     }
     println("Roots:")
-    println(printArray(answer.toDoubleArray()))
+    printArray(answer.toDoubleArray())
     println("Accuracy:")
-    println(printArray(accuracies.toDoubleArray()))
+    printArray(accuracies.toDoubleArray())
     println("function value:")
-    println(printArray(functionValue.toDoubleArray()))
+    printArray(functionValue.toDoubleArray())
 
 }
 
@@ -86,12 +86,20 @@ private fun findIntervals(): Array<DoubleArray> {
 }
 
 private fun printMatrix(matrix: Array<DoubleArray>) {
-    matrix.map {
-        println("[${it.joinToString(", ")}]")
+    matrix.map { it ->
+        val newArray = mutableListOf<Double>()
+        it.map {
+            newArray.add((it * 1000.0).roundToInt() / 1000.0)
+        }
+        println("[${newArray.toDoubleArray().joinToString(", ")}]")
     }
 }
 
 private fun printArray(array: DoubleArray) {
-    println("[${array.joinToString(", ")}]")
+    val newArray = mutableListOf<Double>()
+    array.map {
+        newArray.add((it * 1000.0).roundToInt() / 1000.0)
+    }
+    println("[${newArray.toDoubleArray().joinToString(", ")}]")
 }
 
