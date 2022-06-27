@@ -49,13 +49,13 @@ private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
             iteration++
         }
         println("Convergences of root №${intervals.indexOf(interval) + 1}:")
+        println("Iterations of root №${intervals.indexOf(interval) + 1}: $iteration")
         println(printArray(convergences.toDoubleArray()))
 
         val x = (a + b) / 2
         answer.add(x)
         accuracies.add(((b - a) / 2).absoluteValue)
         functionValue.add(baseFunction(x))
-
     }
     println("Roots:")
     printArray(answer.toDoubleArray())
