@@ -1,7 +1,5 @@
-import kotlin.concurrent.timer
 import kotlin.math.*
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 var countOfFunctionCalculation: Int = 0
 private const val BASE_LEFT_BORDER = -10.0
@@ -10,6 +8,7 @@ private const val LEFT_BORDER_INDEX = 0
 private const val RIGHT_BORDER_INDEX = 1
 private const val BASE_STEP = 1.2
 private const val ARGUMENT_ACCURACY = 0.005
+private const val FUNCTION_ACCURACY = 0.001
 
 fun main() {
 
@@ -22,6 +21,7 @@ fun main() {
     println("Spent time: $spentTime")
 }
 
+//расчет по методу золотого сечения
 private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
     println("Calculating roots using Golden Ratio.")
     val answer = mutableListOf<Double>()
@@ -33,7 +33,8 @@ private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
         var a = interval[LEFT_BORDER_INDEX]
         var b = interval[RIGHT_BORDER_INDEX]
         var iteration = 0
-        while (((b - a) / 2).absoluteValue >= ARGUMENT_ACCURACY) {
+        while ((((b - a) / 2).absoluteValue >= ARGUMENT_ACCURACY) ||
+            ((baseFunction((b + a) / 2)).absoluteValue >= FUNCTION_ACCURACY)) {
             val d = a + ((b - a) / goldenRatio())
             val c = a + ((b - a) / goldenRatio().pow(2))
             if (baseFunction(a) * baseFunction(d) <= 0) {
@@ -43,14 +44,17 @@ private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
             }
             roots.add((a + b) / 2)
             if (roots.size >= 3) {
-                convergences.add(((roots[iteration - 1] - roots[iteration]) /
-                        (roots[iteration - 2] - roots[iteration - 1])).absoluteValue)
+                convergences.add(
+                    ((roots[iteration - 1] - roots[iteration]) /
+                            (roots[iteration - 2] - roots[iteration - 1])).absoluteValue
+                )
             }
             iteration++
         }
         println("Convergences of root №${intervals.indexOf(interval) + 1}:")
-        println("Iterations of root №${intervals.indexOf(interval) + 1}: $iteration")
         println(printArray(convergences.toDoubleArray()))
+        println("Iterations of root №${intervals.indexOf(interval) + 1}: $iteration")
+
 
         val x = (a + b) / 2
         answer.add(x)
@@ -59,22 +63,25 @@ private fun calculateRootsViaGoldenRatio(intervals: Array<DoubleArray>) {
     }
     println("Roots:")
     printArray(answer.toDoubleArray())
-    println("Accuracy:")
+    println("Argument accuracy:")
     printArray(accuracies.toDoubleArray())
     println("function value:")
     printArray(functionValue.toDoubleArray())
 
 }
 
+//золотое сечение
 private fun goldenRatio(): Double {
     return (1 + sqrt(5.0)) / 2
 }
 
+//функция согласно заданию
 private fun baseFunction(x: Double): Double {
     countOfFunctionCalculation++
     return (10 * cos(x) - 0.1 * x.pow(2))
 }
 
+//интервалы, содержащие корни
 private fun findIntervals(): Array<DoubleArray> {
     println("Finding borders:")
     val answer = mutableListOf<DoubleArray>()
@@ -91,6 +98,7 @@ private fun findIntervals(): Array<DoubleArray> {
     return answer.toTypedArray()
 }
 
+//вывод на экран матрицы
 private fun printMatrix(matrix: Array<DoubleArray>) {
     matrix.map { it ->
         val newArray = mutableListOf<Double>()
@@ -101,6 +109,7 @@ private fun printMatrix(matrix: Array<DoubleArray>) {
     }
 }
 
+//вывод  на экран вектора
 private fun printArray(array: DoubleArray) {
     val newArray = mutableListOf<Double>()
     array.map {
